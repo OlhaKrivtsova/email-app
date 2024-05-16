@@ -1,0 +1,110 @@
+import {createContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+
+const UserContext = createContext({
+  isFormSignUpVisible: false,
+  isFormLoginVisible: false,
+  credentials: {login: '', password: ''},
+
+  user: {
+    id: 0,
+    username: '',
+    email: '',
+  },
+
+  loginHandler(login, password) {},
+  signUpHandler(login, email, password) {},
+  logoutHandler() {},
+  formSignUpVisibleHandler() {},
+  formLoginVisibleHandler() {},
+  setUserHandler(id, login, password) {},
+});
+
+export const UserContextProvider = props => {
+  const [credentials, setCredentials] = useState({login: '', password: ''});
+  const [isFormSignUpVisible, setIsFormSignUpVisible] = useState(false);
+  const [isFormLoginVisible, setIsFormLoginVisible] = useState(false);
+  const [user, setUser] = useState({
+    id: 0,
+    username: '',
+    email: '',
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const login = localStorage.getItem('login');
+    const password = localStorage.getItem('password');
+    const user = localStorage.getItem('user');
+    if (user) {
+      const saveUser = JSON.parse(localStorage.getItem('user'));
+      setUserHandler(saveUser.id, saveUser.username, saveUser.email);
+      return;
+    }
+    if (login) {
+      setCredentials({login, password});
+      return;
+    }
+  }, []);
+
+  const setUserHandler = (id, login, email) => {
+    setUser({id, login, email});
+  };
+
+  const formSignUpVisibleHandler = () => {
+    if (!isFormSignUpVisible) {
+      setIsFormSignUpVisible(true);
+      setIsFormLoginVisible(false);
+    } else {
+      setIsFormSignUpVisible(false);
+    }
+  };
+
+  const formLoginVisibleHandler = () => {
+    if (!isFormLoginVisible) {
+      setIsFormLoginVisible(true);
+      setIsFormSignUpVisible(false);
+    } else {
+      setIsFormLoginVisible(false);
+    }
+  };
+
+  const loginHandler = user => {
+    navigate('email');
+    localStorage.setItem('user', JSON.stringify(user));
+  };
+
+  const signUpHandler = (login, password, user) => {
+    navigate('email');
+    localStorage.setItem('login', login);
+    localStorage.setItem('password', password);
+    localStorage.setItem('user', JSON.stringify(user));
+  };
+
+  const logoutHandler = () => {
+    navigate('/');
+    localStorage.removeItem('user');
+  };
+
+  return (
+    <UserContext.Provider
+      value={{
+        // isLoggedIn,
+        isFormSignUpVisible,
+        isFormLoginVisible,
+        user,
+        credentials,
+        loginHandler,
+        logoutHandler,
+        signUpHandler,
+        formSignUpVisibleHandler,
+        formLoginVisibleHandler,
+        setUserHandler,
+      }}
+    >
+      {props.children}
+    </UserContext.Provider>
+  );
+};
+
+export default UserContext;
