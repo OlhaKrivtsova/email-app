@@ -1,6 +1,7 @@
 import {useContext} from 'react';
 import styles from './Header.module.css';
 import UserContext from '../../store/auth-context';
+import Container from '../../UI/Container';
 
 const EmailHeader = props => {
   const {logoutHandler, user} = useContext(UserContext);

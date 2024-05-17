@@ -109,9 +109,11 @@ label {
 /* Base style */
 
 :root {
-  --main-color: #ff5000;
-  --main-transparent-color: #ff500035;
-  --main-row-color: #ff500019;
+  --main-color: #0649a0;
+  --main-transparent-color: #0649a067;
+  --main-row-color: #0649a010;
+  --second-color: #61c6e8;
+  --second-transparent-color: #61c6e830;
 }
 
 body {

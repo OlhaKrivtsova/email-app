@@ -1,5 +1,5 @@
 .main-header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0649a0;
+  background: var(--main-color);
   padding: 0 3rem;
   color: white;
 }
@@ -29,16 +29,6 @@
   margin-left: 3rem;
 }
 
-.nav a {
-  text-decoration: none;
-  color: white;
-}
-
-.nav a:hover,
-.nav a:active {
-  color: #b1c4db;
-}
-
 .nav button {
   font: inherit;
   background: #0dd6dd;
@@ -48,10 +38,6 @@
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
   border-radius: 20px;
-}
-
-.nav button:focus {
-  outline: none;
 }
 
 .nav button:hover,

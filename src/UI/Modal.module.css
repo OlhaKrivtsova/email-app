@@ -1,0 +1,48 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background-color: #ffffff80;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 500px;
+  min-height: 400px;
+  background-color: white;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  z-index: 30;
+  animation: slide-down 300ms ease-out forwards;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.btn-close {
+  margin: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.btn-close svg {
+  color: var(--main-color);
+  width: 15px;
+  height: 15px;
+  stroke-width: 2px;
+}

@@ -5,6 +5,7 @@ import FormSignUp from '../components/forms/FormSignUp';
 import FormLogin from '../components/forms/FormLogin';
 import HomeHeader from '../components/layout/HomeHeader';
 import UserContext from '../store/auth-context';
+import Container from '../UI/Container';
 
 const Home = props => {
   const {isFormSignUpVisible, isFormLoginVisible} = useContext(UserContext);
@@ -13,9 +14,10 @@ const Home = props => {
     <>
       <HomeHeader />
       <section>
-        <div>Home pages</div>
-        {isFormSignUpVisible && <FormSignUp />}
-        {isFormLoginVisible && <FormLogin />}
+        <Container>
+          {isFormSignUpVisible && <FormSignUp />}
+          {isFormLoginVisible && <FormLogin />}
+        </Container>
       </section>
     </>
   );

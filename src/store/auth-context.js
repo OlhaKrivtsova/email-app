@@ -89,7 +89,6 @@ export const UserContextProvider = props => {
   return (
     <UserContext.Provider
       value={{
-        // isLoggedIn,
         isFormSignUpVisible,
         isFormLoginVisible,
         user,

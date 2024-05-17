@@ -11,7 +11,7 @@ export async function addUser(userData) {
   });
 
   if (!response.ok) {
-    throw new Error('User adding error');
+    throw new Error('Registration error');
   }
   const data = await response.json();
   return data;
@@ -26,9 +26,44 @@ export async function authUser({login, password}) {
   });
 
   if (!response.ok) {
-    throw new Error('User adding error');
+    throw new Error('Authorization error');
   }
 
+  const data = await response.json();
+  return data;
+}
+
+export async function addEmail({emailData, login, password}) {
+  const response = await fetch(`${ROOT_DOMAIN}/emails/`, {
+    method: 'POST',
+    body: JSON.stringify(emailData),
+    headers: {
+      Authorization: 'Basic ' + encode(login + ':' + password),
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Email sending error');
+  }
+  const data = await response.json();
+  return data;
+}
+
+export async function getEmails({login, password, limit}) {
+  const response = await fetch(
+    `${ROOT_DOMAIN}/emails/?limit=${limit.toString()}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + encode(login + ':' + password),
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Email sending error');
+  }
   const data = await response.json();
   return data;
 }
