@@ -84,7 +84,7 @@ const FormLogin = props => {
             )}
           </div>
         </div>
-        <div required className={inputPasswordClassName}>
+        <div className={inputPasswordClassName}>
           <label htmlFor='password'>Password</label>
           <input
             type='password'

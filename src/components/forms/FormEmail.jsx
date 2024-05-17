@@ -1,6 +1,6 @@
-import styles from './Form.module.css';
+import styles from './FormEmail.module.css';
 import useInput from '../../hooks/use-input';
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import UserContext from '../../store/auth-context';
 import EmailContext from '../../store/email-context';
 import useHttp from '../../hooks/use-http';
@@ -12,8 +12,14 @@ import {
   subjectValidator,
   messageValidator,
 } from '../../utils/input-validation';
+import RichTextInput from '../RichTextInput';
 
 const FormEmail = () => {
+  const [messageValue, setMessageValue] = useState('');
+  const [isMessageInputTouched, setIsMessageInputTouched] = useState(false);
+  const isMessageValid = messageValidator(messageValue);
+  const hasInputMessageError = isMessageInputTouched && !isMessageValid;
+
   const {user, credentials} = useContext(UserContext);
 
   const {formEmailVisibleHandler, refreshEmails} = useContext(EmailContext);
@@ -43,23 +49,11 @@ const FormEmail = () => {
     blurInputHandler: blurInputSubjectHandler,
   } = useInput(subjectValidator);
 
-  const {
-    inputValue: inputMessage,
-    isValueValid: isMessageValid,
-    hasInputError: hasInputMessageError,
-    changeInputHandler: changeInputMessageHandler,
-    blurInputHandler: blurInputMessageHandler,
-  } = useInput(messageValidator);
-
   const inputRecipientEmailClassName = hasInputRecipientEmailError
     ? `${styles['form-control']} ${styles.invalid}`
     : styles['form-control'];
 
   const inputSubjectClassName = hasInputSubjectError
-    ? `${styles['form-control']} ${styles.invalid}`
-    : styles['form-control'];
-
-  const inputMessageClassName = hasInputMessageError
     ? `${styles['form-control']} ${styles.invalid}`
     : styles['form-control'];
 
@@ -69,14 +63,14 @@ const FormEmail = () => {
     event.preventDefault();
     blurInputRecipientEmailHandler();
     blurInputSubjectHandler();
-    blurInputMessageHandler();
+    setIsMessageInputTouched(true);
     if (!isFormValid) return;
     const recipient = inputRecipientEmail;
     const subject = inputSubject;
-    const message = inputMessage;
-    // console.log(
-    //   `the form has been sent with ${recipient} ${subject} ${message}`
-    // );
+    const message = messageValue;
+    console.log(
+      `the form has been sent with ${recipient} ${subject} ${message}`
+    );
     sendHttpRequest({
       emailData: {sender: user.id, recipient, subject, message},
       login: credentials.login,
@@ -106,7 +100,7 @@ const FormEmail = () => {
               <p className={styles['error-text']}>The wrong Email</p>
             )}
           </div>
-          <div required className={inputSubjectClassName}>
+          <div className={inputSubjectClassName}>
             <label htmlFor='subject'>Subject</label>
             <input
               type='text'
@@ -120,19 +114,17 @@ const FormEmail = () => {
             )}
           </div>
         </div>
-        <div required className={inputMessageClassName}>
-          <label htmlFor='message'>Message</label>
-          <input
-            type='text'
-            id='message'
-            onChange={changeInputMessageHandler}
-            onBlur={blurInputMessageHandler}
-            value={inputMessage}
+        <div className={`${styles['form-control']} ${styles.invalid}`}>
+          <label>Message</label>
+          <RichTextInput
+            setMessageValue={setMessageValue}
+            setIsMessageInputTouched={setIsMessageInputTouched}
           />
           {hasInputMessageError && (
             <p className={styles['error-text']}>The wrong Message</p>
           )}
         </div>
+
         <div className={styles['form-actions']}>
           <button type='button' onClick={formEmailVisibleHandler}>
             Cancel

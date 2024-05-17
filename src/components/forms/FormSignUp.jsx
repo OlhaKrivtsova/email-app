@@ -103,7 +103,7 @@ const FormSignUp = props => {
               <p className={styles['error-text']}>The wrong User Name</p>
             )}
           </div>
-          <div required className={inputEmailClassName}>
+          <div className={inputEmailClassName}>
             <label htmlFor='email'>Email</label>
             <input
               type='email'
@@ -117,7 +117,7 @@ const FormSignUp = props => {
             )}
           </div>
         </div>
-        <div required className={inputPasswordClassName}>
+        <div className={inputPasswordClassName}>
           <label htmlFor='password'>Password</label>
           <input
             type='password'
