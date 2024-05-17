@@ -1,4 +1,4 @@
-table {
+.table {
   margin-top: 20px;
   width: 100%;
   border: solid 1px black;
@@ -6,16 +6,16 @@ table {
   border-collapse: collapse;
 }
 
-td,
-th {
+table td,
+table th {
   height: 30px;
   /* border-bottom: solid 1px black; */
 }
 
-tr:nth-child(even) {
+table tr:nth-child(even) {
   background-color: var(--second-transparent-color);
 }
 
-th {
+table th {
   background-color: var(--second-color);
 }

@@ -1,7 +1,7 @@
 import {createContext, useState} from 'react';
 
 const initialPageNumber = 1;
-const initialAmountOfRecordsOnPage = 4;
+const initialAmountOfRecordsOnPage = 10;
 
 const EmailContext = createContext({
   isFormSEmailVisible: false,

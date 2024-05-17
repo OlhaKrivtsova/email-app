@@ -39,11 +39,9 @@ export const UserContextProvider = props => {
     if (user) {
       const saveUser = JSON.parse(localStorage.getItem('user'));
       setUserHandler(saveUser.id, saveUser.username, saveUser.email);
-      return;
     }
     if (login) {
       setCredentials({login, password});
-      return;
     }
   }, []);
 

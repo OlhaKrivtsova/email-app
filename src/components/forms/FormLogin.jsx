@@ -4,6 +4,9 @@ import styles from './Form.module.css';
 import UserContext from '../../store/auth-context';
 import useHttp from '../../hooks/use-http';
 import {authUser} from '../../utils/server-api';
+import {loginValidator, passwordValidator} from '../../utils/input-validation';
+import Modal from '../../UI/Modal';
+import Loader from '../../UI/Loader';
 
 const FormLogin = props => {
   const {formLoginVisibleHandler, loginHandler, setUserHandler, credentials} =
@@ -17,7 +20,14 @@ const FormLogin = props => {
       loginHandler(user);
       formLoginVisibleHandler();
     }
-  }, [status, user, error, loginHandler, setUserHandler]);
+  }, [
+    status,
+    user,
+    error,
+    loginHandler,
+    setUserHandler,
+    formLoginVisibleHandler,
+  ]);
 
   const {
     inputValue: inputLogin,
@@ -25,8 +35,7 @@ const FormLogin = props => {
     hasInputError: hasInputLoginError,
     changeInputHandler: changeInputLoginHandler,
     blurInputHandler: blurInputLoginHandler,
-    resetInputState: resetInputLoginState,
-  } = useInput(val => val.trim() !== '', credentials.login);
+  } = useInput(loginValidator, credentials.login);
 
   const {
     inputValue: inputPassword,
@@ -34,8 +43,7 @@ const FormLogin = props => {
     hasInputError: hasInputPasswordError,
     changeInputHandler: changeInputPasswordHandler,
     blurInputHandler: blurInputPasswordHandler,
-    resetInputState: resetInputPasswordState,
-  } = useInput(val => val.trim() !== '', credentials.password);
+  } = useInput(passwordValidator, credentials.password);
 
   const inputLoginClassName = hasInputLoginError
     ? `${styles['form-control']} ${styles.invalid}`
@@ -56,48 +64,53 @@ const FormLogin = props => {
     const password = inputPassword;
     // console.log(`the form has been sent with ${login} ${password}`);
     sendHttpRequest({login, password});
-
-    resetInputLoginState();
-    resetInputPasswordState();
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <div className={styles['control-group']}>
-        <div className={inputLoginClassName}>
-          <label htmlFor='login'>Enter login</label>
+    <>
+      <form onSubmit={submitHandler} noValidate>
+        <div className={styles['control-group']}>
+          <div className={inputLoginClassName}>
+            <label htmlFor='login'>User Name</label>
+            <input
+              type='text'
+              id='login'
+              onChange={changeInputLoginHandler}
+              onBlur={blurInputLoginHandler}
+              value={inputLogin}
+            />
+            {hasInputLoginError && (
+              <p className={styles['error-text']}>The wrong User Name</p>
+            )}
+          </div>
+        </div>
+        <div required className={inputPasswordClassName}>
+          <label htmlFor='password'>Password</label>
           <input
-            type='text'
-            id='login'
-            onChange={changeInputLoginHandler}
-            onBlur={blurInputLoginHandler}
-            value={inputLogin}
+            type='password'
+            id='password'
+            onChange={changeInputPasswordHandler}
+            onBlur={blurInputPasswordHandler}
+            value={inputPassword}
           />
-          {hasInputLoginError && (
-            <p className={styles['error-text']}>Login should not be empty</p>
+          {hasInputPasswordError && (
+            <p className={styles['error-text']}>The wrong Password</p>
           )}
         </div>
-      </div>
-      <div required className={inputPasswordClassName}>
-        <label htmlFor='password'>Enter password</label>
-        <input
-          type='password'
-          id='password'
-          onChange={changeInputPasswordHandler}
-          onBlur={blurInputPasswordHandler}
-          value={inputPassword}
-        />
-        {hasInputPasswordError && (
-          <p className={styles['error-text']}>Password should not be empty</p>
-        )}
-      </div>
-      <div className={styles['form-actions']}>
-        <button type='button' onClick={formLoginVisibleHandler}>
-          Cancel
-        </button>
-        <button type='submit'>Login</button>
-      </div>
-    </form>
+        <div className={styles['form-actions']}>
+          <button type='button' onClick={formLoginVisibleHandler}>
+            Cancel
+          </button>
+          <button type='submit'>Login</button>
+        </div>
+      </form>
+      {status === 'pending' && <Loader />}
+      {error && (
+        <Modal>
+          <p>{error}</p>
+        </Modal>
+      )}
+    </>
   );
 };
 

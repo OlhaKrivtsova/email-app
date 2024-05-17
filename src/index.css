@@ -106,6 +106,7 @@ button::-moz-focus-inner {
 label {
   cursor: pointer;
 }
+
 /* Base style */
 
 :root {
@@ -123,7 +124,16 @@ body {
   background-color: #ffffff;
   color: #100f0f;
 }
+
 main {
-  height: 100vh;
+  /* height: 100vh; */
   padding: 30px 0;
+}
+
+.centered {
+  margin: 3rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

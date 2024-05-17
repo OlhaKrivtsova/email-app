@@ -4,6 +4,13 @@ import {useContext, useEffect} from 'react';
 import UserContext from '../../store/auth-context';
 import useHttp from '../../hooks/use-http';
 import {addUser} from '../../utils/server-api';
+import {
+  emailValidator,
+  loginValidator,
+  passwordValidator,
+} from '../../utils/input-validation';
+import Modal from '../../UI/Modal';
+import Loader from '../../UI/Loader';
 
 const FormSignUp = props => {
   const {formSignUpVisibleHandler, signUpHandler, setUserHandler} =
@@ -11,25 +18,13 @@ const FormSignUp = props => {
 
   const {sendHttpRequest, data: user, error, status} = useHttp(addUser);
 
-  useEffect(() => {
-    if (status === 'completed' && !error) {
-      setUserHandler(user.id, user.username, user.email);
-      signUpHandler(inputLogin, inputPassword, user);
-      formSignUpVisibleHandler();
-      resetInputLoginState();
-      resetInputEmailState();
-      resetInputPasswordState();
-    }
-  }, [status, user, error, setUserHandler, signUpHandler]);
-
   const {
     inputValue: inputLogin,
     isValueValid: isLoginValid,
     hasInputError: hasInputLoginError,
     changeInputHandler: changeInputLoginHandler,
     blurInputHandler: blurInputLoginHandler,
-    resetInputState: resetInputLoginState,
-  } = useInput(val => val.trim() !== '');
+  } = useInput(loginValidator);
 
   const {
     inputValue: inputEmail,
@@ -37,8 +32,7 @@ const FormSignUp = props => {
     hasInputError: hasInputEmailError,
     changeInputHandler: changeInputEmailHandler,
     blurInputHandler: blurInputEmailHandler,
-    resetInputState: resetInputEmailState,
-  } = useInput(val => val.includes('@'));
+  } = useInput(emailValidator);
 
   const {
     inputValue: inputPassword,
@@ -46,8 +40,24 @@ const FormSignUp = props => {
     hasInputError: hasInputPasswordError,
     changeInputHandler: changeInputPasswordHandler,
     blurInputHandler: blurInputPasswordHandler,
-    resetInputState: resetInputPasswordState,
-  } = useInput(val => val.trim() !== '');
+  } = useInput(passwordValidator);
+
+  useEffect(() => {
+    if (status === 'completed' && !error) {
+      setUserHandler(user.id, user.username, user.email);
+      signUpHandler(inputLogin, inputPassword, user);
+      formSignUpVisibleHandler();
+    }
+  }, [
+    status,
+    user,
+    error,
+    inputLogin,
+    inputPassword,
+    setUserHandler,
+    signUpHandler,
+    formSignUpVisibleHandler,
+  ]);
 
   const inputLoginClassName = hasInputLoginError
     ? `${styles['form-control']} ${styles.invalid}`
@@ -77,55 +87,63 @@ const FormSignUp = props => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <div className={styles['control-group']}>
-        <div className={inputLoginClassName}>
-          <label htmlFor='login'>Enter login</label>
+    <>
+      <form onSubmit={submitHandler} noValidate>
+        <div className={styles['control-group']}>
+          <div className={inputLoginClassName}>
+            <label htmlFor='login'>User Name</label>
+            <input
+              type='text'
+              id='login'
+              onChange={changeInputLoginHandler}
+              onBlur={blurInputLoginHandler}
+              value={inputLogin}
+            />
+            {hasInputLoginError && (
+              <p className={styles['error-text']}>The wrong User Name</p>
+            )}
+          </div>
+          <div required className={inputEmailClassName}>
+            <label htmlFor='email'>Email</label>
+            <input
+              type='email'
+              id='email'
+              onChange={changeInputEmailHandler}
+              onBlur={blurInputEmailHandler}
+              value={inputEmail}
+            />
+            {hasInputEmailError && (
+              <p className={styles['error-text']}>The wrong Email</p>
+            )}
+          </div>
+        </div>
+        <div required className={inputPasswordClassName}>
+          <label htmlFor='password'>Password</label>
           <input
-            type='text'
-            id='login'
-            onChange={changeInputLoginHandler}
-            onBlur={blurInputLoginHandler}
-            value={inputLogin}
+            type='password'
+            id='password'
+            onChange={changeInputPasswordHandler}
+            onBlur={blurInputPasswordHandler}
+            value={inputPassword}
           />
-          {hasInputLoginError && (
-            <p className={styles['error-text']}>Login should not be empty</p>
+          {hasInputPasswordError && (
+            <p className={styles['error-text']}>The wrong Password</p>
           )}
         </div>
-        <div required className={inputEmailClassName}>
-          <label htmlFor='email'>Enter Email</label>
-          <input
-            type='email'
-            id='email'
-            onChange={changeInputEmailHandler}
-            onBlur={blurInputEmailHandler}
-            value={inputEmail}
-          />
-          {hasInputEmailError && (
-            <p className={styles['error-text']}>Email should not be empty</p>
-          )}
+        <div className={styles['form-actions']}>
+          <button type='button' onClick={formSignUpVisibleHandler}>
+            Cancel
+          </button>
+          <button type='submit'> Sign Up</button>
         </div>
-      </div>
-      <div required className={inputPasswordClassName}>
-        <label htmlFor='password'>Enter password</label>
-        <input
-          type='password'
-          id='password'
-          onChange={changeInputPasswordHandler}
-          onBlur={blurInputPasswordHandler}
-          value={inputPassword}
-        />
-        {hasInputPasswordError && (
-          <p className={styles['error-text']}>Password should not be empty</p>
-        )}
-      </div>
-      <div className={styles['form-actions']}>
-        <button type='button' onClick={formSignUpVisibleHandler}>
-          Cancel
-        </button>
-        <button type='submit'> Sign Up</button>
-      </div>
-    </form>
+      </form>
+      {status === 'pending' && <Loader />}
+      {error && (
+        <Modal>
+          <p>{error}</p>
+        </Modal>
+      )}
+    </>
   );
 };
 

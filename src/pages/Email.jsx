@@ -26,20 +26,27 @@ const Email = () => {
 
   const {sendHttpRequest, data, error, status} = useHttp(getEmails);
   const emails = data ? data.results : [];
-  const firstRecord = (pageNumber - 1) * emailLimitOnPage;
 
   useEffect(() => {
     if (data) setTotalAmountOfEmails(data.count);
-  }, [data]);
+  }, [data, setTotalAmountOfEmails]);
 
   useEffect(() => {
+    const firstRecord = (pageNumber - 1) * emailLimitOnPage;
+
     sendHttpRequest({
       login: credentials.login,
       password: credentials.password,
       limit: emailLimitOnPage,
       offset: firstRecord,
     });
-  }, [shouldRefreshEmails, credentials, emailLimitOnPage, pageNumber]);
+  }, [
+    shouldRefreshEmails,
+    credentials,
+    emailLimitOnPage,
+    pageNumber,
+    sendHttpRequest,
+  ]);
 
   const rows = emails.map(item => (
     <tr key={item.id}>
@@ -56,7 +63,7 @@ const Email = () => {
           <button onClick={formEmailVisibleHandler}>Send Email</button>
           {isFormEmailVisible && <FormEmail />}
           <br />
-          <table>
+          <table className={styles.table}>
             <thead>
               <tr>
                 <th>id</th>

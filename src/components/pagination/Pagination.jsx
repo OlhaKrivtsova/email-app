@@ -17,7 +17,7 @@ const Pagination = () => {
   useEffect(() => {
     if (amountOfPages > 0 && pageNumber > amountOfPages)
       setPageNumber(amountOfPages);
-  }, [amountOfPages]);
+  }, [amountOfPages, pageNumber, setPageNumber]);
 
   const choosePageHandler = event => {
     setPageNumber(+event.target.textContent);

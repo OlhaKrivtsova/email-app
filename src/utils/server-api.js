@@ -51,8 +51,6 @@ export async function addEmail({emailData, login, password}) {
 }
 
 export async function getEmails({login, password, limit, offset}) {
-  console.log(offset);
-
   const response = await fetch(
     `${ROOT_DOMAIN}/emails/?limit=${limit.toString()}&offset=${offset}&ordering=-id`,
     {
@@ -64,7 +62,7 @@ export async function getEmails({login, password, limit, offset}) {
   );
 
   if (!response.ok) {
-    throw new Error('Email sending error');
+    throw new Error('Email getting error');
   }
   const data = await response.json();
   return data;

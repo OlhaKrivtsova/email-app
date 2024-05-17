@@ -7,8 +7,13 @@ import useHttp from '../../hooks/use-http';
 import {addEmail} from '../../utils/server-api';
 import Modal from '../../UI/Modal';
 import Loader from '../../UI/Loader';
+import {
+  emailValidator,
+  subjectValidator,
+  messageValidator,
+} from '../../utils/input-validation';
 
-const FormEmail = props => {
+const FormEmail = () => {
   const {user, credentials} = useContext(UserContext);
 
   const {formEmailVisibleHandler, refreshEmails} = useContext(EmailContext);
@@ -20,7 +25,7 @@ const FormEmail = props => {
       formEmailVisibleHandler();
       refreshEmails();
     }
-  }, [status, email, error]);
+  }, [status, email, error, formEmailVisibleHandler, refreshEmails]);
 
   const {
     inputValue: inputRecipientEmail,
@@ -28,8 +33,7 @@ const FormEmail = props => {
     hasInputError: hasInputRecipientEmailError,
     changeInputHandler: changeInputRecipientEmailHandler,
     blurInputHandler: blurInputRecipientEmailHandler,
-    resetInputState: resetInputRecipientEmailState,
-  } = useInput(val => val.includes('@'));
+  } = useInput(emailValidator);
 
   const {
     inputValue: inputSubject,
@@ -37,8 +41,7 @@ const FormEmail = props => {
     hasInputError: hasInputSubjectError,
     changeInputHandler: changeInputSubjectHandler,
     blurInputHandler: blurInputSubjectHandler,
-    resetInputState: resetInputSubjectState,
-  } = useInput(val => val.trim() !== '');
+  } = useInput(subjectValidator);
 
   const {
     inputValue: inputMessage,
@@ -46,8 +49,7 @@ const FormEmail = props => {
     hasInputError: hasInputMessageError,
     changeInputHandler: changeInputMessageHandler,
     blurInputHandler: blurInputMessageHandler,
-    resetInputState: resetInputMessageState,
-  } = useInput(val => val.trim() !== '');
+  } = useInput(messageValidator);
 
   const inputRecipientEmailClassName = hasInputRecipientEmailError
     ? `${styles['form-control']} ${styles.invalid}`
@@ -72,9 +74,9 @@ const FormEmail = props => {
     const recipient = inputRecipientEmail;
     const subject = inputSubject;
     const message = inputMessage;
-    console.log(
-      `the form has been sent with ${recipient} ${subject} ${message}`
-    );
+    // console.log(
+    //   `the form has been sent with ${recipient} ${subject} ${message}`
+    // );
     sendHttpRequest({
       emailData: {sender: user.id, recipient, subject, message},
       login: credentials.login,
@@ -84,7 +86,7 @@ const FormEmail = props => {
 
   return (
     <>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} noValidate>
         <div className={styles['control-group']}>
           <div className={styles['form-control']}>
             <label htmlFor='senderEmail'>Sender</label>
@@ -92,7 +94,7 @@ const FormEmail = props => {
           </div>
 
           <div className={inputRecipientEmailClassName}>
-            <label htmlFor='email'>Enter Email</label>
+            <label htmlFor='email'>Recipient</label>
             <input
               type='email'
               id='email'
@@ -101,11 +103,11 @@ const FormEmail = props => {
               value={inputRecipientEmail}
             />
             {hasInputRecipientEmailError && (
-              <p className={styles['error-text']}>Email should not be empty</p>
+              <p className={styles['error-text']}>The wrong Email</p>
             )}
           </div>
           <div required className={inputSubjectClassName}>
-            <label htmlFor='subject'>Enter Subject</label>
+            <label htmlFor='subject'>Subject</label>
             <input
               type='text'
               id='subject'
@@ -114,12 +116,12 @@ const FormEmail = props => {
               value={inputSubject}
             />
             {hasInputSubjectError && (
-              <p className={styles['error-text']}>Email should not be empty</p>
+              <p className={styles['error-text']}>The wrong Subject</p>
             )}
           </div>
         </div>
         <div required className={inputMessageClassName}>
-          <label htmlFor='message'>Enter message</label>
+          <label htmlFor='message'>Message</label>
           <input
             type='text'
             id='message'
@@ -128,7 +130,7 @@ const FormEmail = props => {
             value={inputMessage}
           />
           {hasInputMessageError && (
-            <p className={styles['error-text']}>Password should not be empty</p>
+            <p className={styles['error-text']}>The wrong Message</p>
           )}
         </div>
         <div className={styles['form-actions']}>
