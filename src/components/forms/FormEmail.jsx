@@ -11,15 +11,14 @@ import Loader from '../../UI/Loader';
 const FormEmail = props => {
   const {user, credentials} = useContext(UserContext);
 
-  const {formEmailVisibleHandler, setShouldRefreshEmails} =
-    useContext(EmailContext);
+  const {formEmailVisibleHandler, refreshEmails} = useContext(EmailContext);
 
   const {sendHttpRequest, data: email, error, status} = useHttp(addEmail);
 
   useEffect(() => {
     if (status === 'completed' && !error) {
       formEmailVisibleHandler();
-      setShouldRefreshEmails(true);
+      refreshEmails();
     }
   }, [status, email, error]);
 

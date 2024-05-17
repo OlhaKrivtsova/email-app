@@ -1,29 +1,37 @@
-import {createContext, useEffect, useState} from 'react';
+import {createContext, useState} from 'react';
 
 const initialPageNumber = 1;
 const initialAmountOfRecordsOnPage = 4;
 
 const EmailContext = createContext({
   isFormSEmailVisible: false,
-  shouldRefreshEmails: true,
+  shouldRefreshEmails: 1,
   emailLimitOnPage: initialAmountOfRecordsOnPage,
   totalAmountOfEmails: 0,
+  pageNumber: initialPageNumber,
   formEmailVisibleHandler() {},
-  setShouldRefreshEmails() {},
+  refreshEmails() {},
   setEmailLimitOnPage() {},
   setTotalAmountOfEmails() {},
+  setPageNumber() {},
 });
 
 export const EmailContextProvider = props => {
   const [isFormEmailVisible, setIsFormEmailVisible] = useState(false);
-  const [shouldRefreshEmails, setShouldRefreshEmails] = useState(true);
+  const [shouldRefreshEmails, setShouldRefreshEmails] = useState(1);
   const [emailLimitOnPage, setEmailLimitOnPage] = useState(
     initialAmountOfRecordsOnPage
   );
   const [totalAmountOfEmails, setTotalAmountOfEmails] = useState(0);
 
+  const [pageNumber, setPageNumber] = useState(initialPageNumber);
+
   const formEmailVisibleHandler = () => {
     setIsFormEmailVisible(prev => !prev);
+  };
+
+  const refreshEmails = () => {
+    setShouldRefreshEmails(prev => -prev);
   };
 
   return (
@@ -33,10 +41,12 @@ export const EmailContextProvider = props => {
         shouldRefreshEmails,
         emailLimitOnPage,
         totalAmountOfEmails,
+        pageNumber,
         formEmailVisibleHandler,
-        setShouldRefreshEmails,
+        refreshEmails,
         setEmailLimitOnPage,
         setTotalAmountOfEmails,
+        setPageNumber,
       }}
     >
       {props.children}

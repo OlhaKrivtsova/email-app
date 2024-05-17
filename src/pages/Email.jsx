@@ -10,41 +10,36 @@ import UserContext from '../store/auth-context';
 import Container from '../UI/Container';
 import Modal from '../UI/Modal';
 import Loader from '../UI/Loader';
+import Pagination from '../components/pagination/Pagination';
 
-// const DUMMY_EMAILS = [
-//   {id: 1, recipient: 'email1@com', subject: 'topic1'},
-//   {id: 2, recipient: 'email2@com', subject: 'topic2'},
-//   {id: 3, recipient: 'email3@com', subject: 'topic3'},
-//   {id: 4, recipient: 'email4@com', subject: 'topic3'},
-// ];
-
-const Email = props => {
+const Email = () => {
   const {
     isFormEmailVisible,
     formEmailVisibleHandler,
     shouldRefreshEmails,
-    setShouldRefreshEmails,
     emailLimitOnPage,
+    setTotalAmountOfEmails,
+    pageNumber,
   } = useContext(EmailContext);
 
   const {credentials} = useContext(UserContext);
 
   const {sendHttpRequest, data, error, status} = useHttp(getEmails);
-  const emails = data ? data.results.toReversed() : [];
-  console.log(data);
-
-  console.log(emails);
+  const emails = data ? data.results : [];
+  const firstRecord = (pageNumber - 1) * emailLimitOnPage;
 
   useEffect(() => {
-    if (shouldRefreshEmails) {
-      sendHttpRequest({
-        login: credentials.login,
-        password: credentials.password,
-        limit: emailLimitOnPage,
-      });
-      setShouldRefreshEmails(false);
-    }
-  }, [shouldRefreshEmails]);
+    if (data) setTotalAmountOfEmails(data.count);
+  }, [data]);
+
+  useEffect(() => {
+    sendHttpRequest({
+      login: credentials.login,
+      password: credentials.password,
+      limit: emailLimitOnPage,
+      offset: firstRecord,
+    });
+  }, [shouldRefreshEmails, credentials, emailLimitOnPage, pageNumber]);
 
   const rows = emails.map(item => (
     <tr key={item.id}>
@@ -71,6 +66,7 @@ const Email = props => {
             </thead>
             <tbody>{rows}</tbody>
           </table>
+          <Pagination />
         </Container>
         {status === 'pending' && <Loader />}
         {error && (

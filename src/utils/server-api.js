@@ -50,9 +50,11 @@ export async function addEmail({emailData, login, password}) {
   return data;
 }
 
-export async function getEmails({login, password, limit}) {
+export async function getEmails({login, password, limit, offset}) {
+  console.log(offset);
+
   const response = await fetch(
-    `${ROOT_DOMAIN}/emails/?limit=${limit.toString()}`,
+    `${ROOT_DOMAIN}/emails/?limit=${limit.toString()}&offset=${offset}&ordering=-id`,
     {
       method: 'GET',
       headers: {
