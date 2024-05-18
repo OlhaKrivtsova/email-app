@@ -1,5 +1,6 @@
-import {createContext, useEffect, useState} from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import EmailContext from './email-context';
 
 const UserContext = createContext({
   isFormSignUpVisible: false,
@@ -29,6 +30,9 @@ export const UserContextProvider = props => {
     username: '',
     email: '',
   });
+
+  const {formEmailVisibleHandler, isFormEmailVisible} =
+    useContext(EmailContext);
 
   const navigate = useNavigate();
 
@@ -77,11 +81,13 @@ export const UserContextProvider = props => {
     localStorage.setItem('login', login);
     localStorage.setItem('password', password);
     localStorage.setItem('user', JSON.stringify(user));
+    setCredentials({login, password});
   };
 
   const logoutHandler = () => {
     navigate('/');
     localStorage.removeItem('user');
+    isFormEmailVisible && formEmailVisibleHandler();
   };
 
   return (

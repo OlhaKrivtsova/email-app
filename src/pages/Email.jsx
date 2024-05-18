@@ -19,6 +19,7 @@ const Email = () => {
     shouldRefreshEmails,
     emailLimitOnPage,
     setTotalAmountOfEmails,
+    totalAmountOfEmails,
     pageNumber,
   } = useContext(EmailContext);
 
@@ -48,13 +49,19 @@ const Email = () => {
     sendHttpRequest,
   ]);
 
-  const rows = emails.map(item => (
-    <tr key={item.id}>
-      <td>{item.id}</td>
-      <td>{item.recipient}</td>
-      <td>{item.subject}</td>
+  const rows = totalAmountOfEmails ? (
+    emails.map(item => (
+      <tr key={item.id}>
+        <td>{item.id}</td>
+        <td>{item.recipient}</td>
+        <td>{item.subject}</td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={3}>There is no email yet</td>
     </tr>
-  ));
+  );
   return (
     <>
       <EmailHeader />

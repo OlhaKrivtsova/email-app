@@ -8,8 +8,8 @@ import {loginValidator, passwordValidator} from '../../utils/input-validation';
 import Modal from '../../UI/Modal';
 import Loader from '../../UI/Loader';
 
-const FormLogin = props => {
-  const {formLoginVisibleHandler, loginHandler, setUserHandler, credentials} =
+const FormLogin = () => {
+  const {formLoginVisibleHandler, signUpHandler, setUserHandler, credentials} =
     useContext(UserContext);
 
   const {sendHttpRequest, data: user, error, status} = useHttp(authUser);
@@ -17,14 +17,16 @@ const FormLogin = props => {
   useEffect(() => {
     if (status === 'completed' && !error) {
       setUserHandler(user.id, user.username, user.email);
-      loginHandler(user);
+      signUpHandler(inputLogin, inputPassword, user);
       formLoginVisibleHandler();
     }
   }, [
     status,
     user,
     error,
-    loginHandler,
+    inputLogin,
+    inputPassword,
+    signUpHandler,
     setUserHandler,
     formLoginVisibleHandler,
   ]);

@@ -12,7 +12,7 @@ import {
 import Modal from '../../UI/Modal';
 import Loader from '../../UI/Loader';
 
-const FormSignUp = props => {
+const FormSignUp = () => {
   const {formSignUpVisibleHandler, signUpHandler, setUserHandler} =
     useContext(UserContext);
 

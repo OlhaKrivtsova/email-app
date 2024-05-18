@@ -15,8 +15,9 @@ const Pagination = () => {
   const pages = Array.from({length: amountOfPages}, (_, ind) => ind + 1);
 
   useEffect(() => {
-    if (amountOfPages > 0 && pageNumber > amountOfPages)
-      setPageNumber(amountOfPages);
+    if (amountOfPages > 0 && pageNumber > amountOfPages) {
+      setTimeout(() => setPageNumber(amountOfPages), 100);
+    }
   }, [amountOfPages, pageNumber, setPageNumber]);
 
   const choosePageHandler = event => {
