@@ -1,14 +1,23 @@
 {
   "files": {
-    "main.css": "/email-app/static/css/main.f8f17e13.css",
-    "main.js": "/email-app/static/js/main.1e3a9793.js",
+    "main.css": "/email-app/static/css/main.45391147.css",
+    "main.js": "/email-app/static/js/main.d1e508a3.js",
+    "static/js/605.604cae66.chunk.js": "/email-app/static/js/605.604cae66.chunk.js",
+    "static/media/primeicons.svg": "/email-app/static/media/primeicons.6ed59f962963a4a73af2.svg",
+    "static/media/Inter-italic.var.woff2?v=3.19": "/email-app/static/media/Inter-italic.var.30807be7abc48ba8c73c.woff2",
+    "static/media/Inter-roman.var.woff2?v=3.19": "/email-app/static/media/Inter-roman.var.ba4caefcdf5b36b438db.woff2",
+    "static/media/primeicons.eot": "/email-app/static/media/primeicons.ff0c4cd79b2ffca2de54.eot",
+    "static/media/primeicons.woff": "/email-app/static/media/primeicons.8931fda1930c3bd21e96.woff",
+    "static/media/primeicons.ttf": "/email-app/static/media/primeicons.a5c2a53d1ff7a9ff5933.ttf",
+    "static/media/primeicons.woff2": "/email-app/static/media/primeicons.024b32cc7bf399b1a847.woff2",
     "index.html": "/email-app/index.html",
     "static/media/icons.svg": "/email-app/static/media/icons.5dfa40d760967abd0fcc28c173eef69f.svg",
-    "main.f8f17e13.css.map": "/email-app/static/css/main.f8f17e13.css.map",
-    "main.1e3a9793.js.map": "/email-app/static/js/main.1e3a9793.js.map"
+    "main.45391147.css.map": "/email-app/static/css/main.45391147.css.map",
+    "main.d1e508a3.js.map": "/email-app/static/js/main.d1e508a3.js.map",
+    "605.604cae66.chunk.js.map": "/email-app/static/js/605.604cae66.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f8f17e13.css",
-    "static/js/main.1e3a9793.js"
+    "static/css/main.45391147.css",
+    "static/js/main.d1e508a3.js"
   ]
 }
