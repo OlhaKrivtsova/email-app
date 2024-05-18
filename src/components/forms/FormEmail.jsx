@@ -57,6 +57,10 @@ const FormEmail = () => {
     ? `${styles['form-control']} ${styles.invalid}`
     : styles['form-control'];
 
+  const inputMessageClassName = hasInputMessageError
+    ? `${styles['form-control']} ${styles.invalid}`
+    : styles['form-control'];
+
   const isFormValid = isRecipientEmailValid && isSubjectValid && isMessageValid;
 
   const submitHandler = event => {
@@ -80,7 +84,7 @@ const FormEmail = () => {
 
   return (
     <>
-      <form onSubmit={submitHandler} noValidate>
+      <form className={styles.form} onSubmit={submitHandler} noValidate>
         <div className={styles['control-group']}>
           <div className={styles['form-control']}>
             <label htmlFor='senderEmail'>Sender</label>
@@ -110,26 +114,33 @@ const FormEmail = () => {
               value={inputSubject}
             />
             {hasInputSubjectError && (
-              <p className={styles['error-text']}>The wrong Subject</p>
+              <p className={styles['error-text']}>
+                The Subject shouldn't be empty
+              </p>
             )}
           </div>
-        </div>
-        <div className={`${styles['form-control']} ${styles.invalid}`}>
-          <label>Message</label>
-          <RichTextInput
-            setMessageValue={setMessageValue}
-            setIsMessageInputTouched={setIsMessageInputTouched}
-          />
-          {hasInputMessageError && (
-            <p className={styles['error-text']}>The wrong Message</p>
-          )}
+
+          <div className={inputMessageClassName}>
+            <label>Message</label>
+            <div className={styles['rich-text-input']}>
+              <RichTextInput
+                setMessageValue={setMessageValue}
+                setIsMessageInputTouched={setIsMessageInputTouched}
+              />
+            </div>
+            {hasInputMessageError && (
+              <p className={styles['error-text']}>
+                The Message shouldn't be empty
+              </p>
+            )}
+          </div>
         </div>
 
         <div className={styles['form-actions']}>
           <button type='button' onClick={formEmailVisibleHandler}>
             Cancel
           </button>
-          <button type='submit'> Send</button>
+          <button type='submit'>Send</button>
         </div>
       </form>
       {status === 'pending' && <Loader />}

@@ -88,7 +88,7 @@ const FormSignUp = () => {
 
   return (
     <>
-      <form onSubmit={submitHandler} noValidate>
+      <form className={styles.form} onSubmit={submitHandler} noValidate>
         <div className={styles['control-group']}>
           <div className={inputLoginClassName}>
             <label htmlFor='login'>User Name</label>

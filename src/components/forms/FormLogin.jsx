@@ -14,23 +14,6 @@ const FormLogin = () => {
 
   const {sendHttpRequest, data: user, error, status} = useHttp(authUser);
 
-  useEffect(() => {
-    if (status === 'completed' && !error) {
-      setUserHandler(user.id, user.username, user.email);
-      signUpHandler(inputLogin, inputPassword, user);
-      formLoginVisibleHandler();
-    }
-  }, [
-    status,
-    user,
-    error,
-    inputLogin,
-    inputPassword,
-    signUpHandler,
-    setUserHandler,
-    formLoginVisibleHandler,
-  ]);
-
   const {
     inputValue: inputLogin,
     isValueValid: isLoginValid,
@@ -57,6 +40,23 @@ const FormLogin = () => {
 
   const isFormValid = isLoginValid && isPasswordValid;
 
+  useEffect(() => {
+    if (status === 'completed' && !error) {
+      setUserHandler(user.id, user.username, user.email);
+      signUpHandler(inputLogin, inputPassword, user);
+      formLoginVisibleHandler();
+    }
+  }, [
+    status,
+    user,
+    error,
+    inputLogin,
+    inputPassword,
+    signUpHandler,
+    setUserHandler,
+    formLoginVisibleHandler,
+  ]);
+
   const submitHandler = event => {
     event.preventDefault();
     blurInputLoginHandler();
@@ -70,7 +70,7 @@ const FormLogin = () => {
 
   return (
     <>
-      <form onSubmit={submitHandler} noValidate>
+      <form className={styles.form} onSubmit={submitHandler} noValidate>
         <div className={styles['control-group']}>
           <div className={inputLoginClassName}>
             <label htmlFor='login'>User Name</label>

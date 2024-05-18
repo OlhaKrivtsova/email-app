@@ -67,7 +67,9 @@ const Email = () => {
       <EmailHeader />
       <section>
         <Container>
-          <button onClick={formEmailVisibleHandler}>Send Email</button>
+          <button className={styles.button} onClick={formEmailVisibleHandler}>
+            Send Email
+          </button>
           {isFormEmailVisible && <FormEmail />}
           <br />
           <table className={styles.table}>

@@ -1,29 +1,28 @@
-.form-control {
-  margin-bottom: 1rem;
+.form {
+  margin-top: 20px;
+  width: 500px;
 }
 
-.form-control input,
-.form-control label {
-  display: block;
+.form-control {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
 }
 
 .form-control label {
   font-weight: bold;
-  margin-bottom: 0.5rem;
 }
 
-.form-control input,
-.form-control select {
-  font: inherit;
+.form-control input {
   padding: 0.5rem;
   border-radius: 5px;
   border: 1px solid #ccc;
-  width: 20rem;
-  max-width: 100%;
+  width: 100%;
+  /* max-width: 100%; */
 }
 
 .form-control input:focus {
-  outline: none;
   border-color: #0ab2ea;
   background-color: #e3f7fb;
 }
@@ -32,15 +31,14 @@
   display: flex;
   flex-direction: column;
   column-gap: 1rem;
-  flex-wrap: wrap;
 }
 
-.control-group .form-control {
-  min-width: 20rem;
-  flex: 1;
+.form-actions {
+  display: flex;
+  justify-content: space-between;
 }
 
-button {
+.form-actions button {
   font: inherit;
   background-color: #61c6e8;
   border: 1px solid #61c6e8;
@@ -49,18 +47,14 @@ button {
   cursor: pointer;
 }
 
-button:hover,
-button:active {
+.form-actions button:hover,
+.form-actions button:active {
   background-color: #0ab2ea;
   border-color: #0ab2ea;
 }
 
-.form-actions button {
-  /* margin-top: 100px; */
-  margin-left: 1rem;
-}
-
-.invalid input {
+.invalid input,
+.invalid .rich-text-input {
   border: 1px solid #e60808;
   background-color: #e3caca;
 }
@@ -72,4 +66,10 @@ button:active {
 
 .error-text {
   color: #e60808;
+}
+
+.rich-text-input {
+  height: 280px;
+  width: 100%;
+  border-radius: 5px;
 }
