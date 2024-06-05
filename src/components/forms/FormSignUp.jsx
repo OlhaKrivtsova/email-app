@@ -9,8 +9,9 @@ import {
   loginValidator,
   passwordValidator,
 } from '../../utils/input-validation';
-import Modal from '../../UI/Modal';
-import Loader from '../../UI/Loader';
+import Modal from '../UI/Modal';
+import Loader from '../UI/Loader';
+import Button from '../UI/Button';
 
 const FormSignUp = () => {
   const {formSignUpVisibleHandler, signUpHandler, setUserHandler} =
@@ -131,10 +132,10 @@ const FormSignUp = () => {
           )}
         </div>
         <div className={styles['form-actions']}>
-          <button type='button' onClick={formSignUpVisibleHandler}>
+          <Button type='button' onClick={formSignUpVisibleHandler}>
             Cancel
-          </button>
-          <button type='submit'> Sign Up</button>
+          </Button>
+          <Button type='submit'> Sign Up</Button>
         </div>
       </form>
       {status === 'pending' && <Loader />}

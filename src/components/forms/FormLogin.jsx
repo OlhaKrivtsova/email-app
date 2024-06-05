@@ -5,8 +5,9 @@ import UserContext from '../../store/auth-context';
 import useHttp from '../../hooks/use-http';
 import {authUser} from '../../utils/server-api';
 import {loginValidator, passwordValidator} from '../../utils/input-validation';
-import Modal from '../../UI/Modal';
-import Loader from '../../UI/Loader';
+import Modal from '../UI/Modal';
+import Loader from '../UI/Loader';
+import Button from '../UI/Button';
 
 const FormLogin = () => {
   const {formLoginVisibleHandler, signUpHandler, setUserHandler, credentials} =
@@ -71,6 +72,9 @@ const FormLogin = () => {
   return (
     <>
       <form className={styles.form} onSubmit={submitHandler} noValidate>
+        {error === '401' && (
+          <p className={styles['error-text']}>The wrong login or password</p>
+        )}
         <div className={styles['control-group']}>
           <div className={inputLoginClassName}>
             <label htmlFor='login'>User Name</label>
@@ -99,15 +103,16 @@ const FormLogin = () => {
             <p className={styles['error-text']}>The wrong Password</p>
           )}
         </div>
+
         <div className={styles['form-actions']}>
-          <button type='button' onClick={formLoginVisibleHandler}>
+          <Button type='button' onClick={formLoginVisibleHandler}>
             Cancel
-          </button>
-          <button type='submit'>Login</button>
+          </Button>
+          <Button type='submit'>Login</Button>
         </div>
       </form>
       {status === 'pending' && <Loader />}
-      {error && (
+      {error && error !== '401' && (
         <Modal>
           <p>{error}</p>
         </Modal>

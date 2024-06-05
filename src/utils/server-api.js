@@ -26,7 +26,11 @@ export async function authUser({login, password}) {
   });
 
   if (!response.ok) {
-    throw new Error('Authorization error');
+    if (response.status === 401) {
+      throw new Error('401');
+    } else {
+      throw new Error('Authorization error');
+    }
   }
 
   const data = await response.json();

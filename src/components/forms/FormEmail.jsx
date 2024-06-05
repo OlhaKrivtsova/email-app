@@ -5,14 +5,15 @@ import UserContext from '../../store/auth-context';
 import EmailContext from '../../store/email-context';
 import useHttp from '../../hooks/use-http';
 import {addEmail} from '../../utils/server-api';
-import Modal from '../../UI/Modal';
-import Loader from '../../UI/Loader';
+import Modal from '../UI/Modal';
+import Loader from '../UI/Loader';
 import {
   emailValidator,
   subjectValidator,
   messageValidator,
 } from '../../utils/input-validation';
-import RichTextInput from '../RichTextInput';
+import RichTextInput from '../RichTextInput/RichTextInput';
+import Button from '../UI/Button';
 
 const FormEmail = () => {
   const [messageValue, setMessageValue] = useState('');
@@ -137,10 +138,10 @@ const FormEmail = () => {
         </div>
 
         <div className={styles['form-actions']}>
-          <button type='button' onClick={formEmailVisibleHandler}>
+          <Button type='button' onClick={formEmailVisibleHandler}>
             Cancel
-          </button>
-          <button type='submit'>Send</button>
+          </Button>
+          <Button type='submit'>Send</Button>
         </div>
       </form>
       {status === 'pending' && <Loader />}

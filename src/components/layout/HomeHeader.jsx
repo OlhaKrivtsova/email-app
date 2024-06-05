@@ -1,6 +1,7 @@
 import styles from './Header.module.css';
 import {useContext} from 'react';
 import UserContext from '../../store/auth-context';
+import Button from '../UI/Button';
 
 const HomeHeader = () => {
   const {formSignUpVisibleHandler, formLoginVisibleHandler} =
@@ -12,14 +13,14 @@ const HomeHeader = () => {
       <nav className={styles.nav}>
         <ul>
           <li>
-            <button type='button' onClick={formLoginVisibleHandler}>
+            <Button type='button' onClick={formLoginVisibleHandler}>
               Login
-            </button>
+            </Button>
           </li>
           <li>
-            <button type='button' onClick={formSignUpVisibleHandler}>
+            <Button type='button' onClick={formSignUpVisibleHandler}>
               Sign up
-            </button>
+            </Button>
           </li>
         </ul>
       </nav>

@@ -2,21 +2,16 @@ import {useContext, useEffect} from 'react';
 import styles from './Pagination.module.css';
 import EmailContext from '../../store/email-context';
 
-const Pagination = () => {
-  const {
-    pageNumber,
-    setPageNumber,
-    totalAmountOfEmails,
-    emailLimitOnPage,
-    setEmailLimitOnPage,
-  } = useContext(EmailContext);
+const Pagination = ({totalAmountOfEmails}) => {
+  const {pageNumber, setPageNumber, emailLimitOnPage, setEmailLimitOnPage} =
+    useContext(EmailContext);
 
   const amountOfPages = Math.ceil(totalAmountOfEmails / emailLimitOnPage);
   const pages = Array.from({length: amountOfPages}, (_, ind) => ind + 1);
 
   useEffect(() => {
     if (amountOfPages > 0 && pageNumber > amountOfPages) {
-      setTimeout(() => setPageNumber(amountOfPages), 100);
+      setPageNumber(amountOfPages);
     }
   }, [amountOfPages, pageNumber, setPageNumber]);
 

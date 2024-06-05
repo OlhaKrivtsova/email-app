@@ -1,0 +1,13 @@
+.button {
+  min-width: 100px;
+  background: var(--second-color);
+  padding: 12px 10px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+  border-radius: 20px;
+}
+
+.button:hover {
+  color: var(--main-color);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}

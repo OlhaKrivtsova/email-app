@@ -16,6 +16,11 @@ function httpReducer(httpState, action) {
         status: 'completed',
       };
     }
+    case 'cancel': {
+      return {
+        ...httpState,
+      };
+    }
     case 'error': {
       return {
         data: null,
@@ -38,11 +43,16 @@ function useHttp(sendRequest, isRequestSending = false) {
   const [httpState, dispatch] = useReducer(httpReducer, initialHttpState);
 
   const sendHttpRequest = useCallback(
-    async function (requestData) {
+    async function (requestData, controller = {isIgnore: false}) {
       dispatch({type: 'send_request'});
       try {
+        // console.log(requestData);
+
         const responseData = await sendRequest(requestData);
-        dispatch({type: 'success', data: responseData});
+
+        !controller.isIgnore
+          ? dispatch({type: 'success', data: responseData})
+          : dispatch({type: 'cancel'});
       } catch (error) {
         dispatch({
           type: 'error',
