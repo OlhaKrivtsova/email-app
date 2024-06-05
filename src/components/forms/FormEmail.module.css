@@ -19,7 +19,6 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   width: 100%;
-  /* max-width: 100%; */
 }
 
 .form-control input:focus {
@@ -39,18 +38,8 @@
 }
 
 .form-actions button {
-  font: inherit;
-  background-color: #61c6e8;
-  border: 1px solid #61c6e8;
   padding: 0.5rem 1.5rem;
   border-radius: 5px;
-  cursor: pointer;
-}
-
-.form-actions button:hover,
-.form-actions button:active {
-  background-color: #0ab2ea;
-  border-color: #0ab2ea;
 }
 
 .invalid input,

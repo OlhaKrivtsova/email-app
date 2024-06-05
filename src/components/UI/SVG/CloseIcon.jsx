@@ -1,5 +1,5 @@
 import styles from './CloseIcon.module.css';
-import icons from '../../assets/icons.svg';
+import icons from '../../../assets/icons.svg';
 
 const CloseIcon = ({className = ''}) => {
   return (

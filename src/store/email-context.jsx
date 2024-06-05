@@ -7,12 +7,10 @@ const EmailContext = createContext({
   isFormSEmailVisible: false,
   shouldRefreshEmails: 1,
   emailLimitOnPage: initialAmountOfRecordsOnPage,
-  totalAmountOfEmails: 0,
   pageNumber: initialPageNumber,
   formEmailVisibleHandler() {},
   refreshEmails() {},
   setEmailLimitOnPage() {},
-  setTotalAmountOfEmails() {},
   setPageNumber() {},
 });
 
@@ -22,7 +20,6 @@ export const EmailContextProvider = props => {
   const [emailLimitOnPage, setEmailLimitOnPage] = useState(
     initialAmountOfRecordsOnPage
   );
-  const [totalAmountOfEmails, setTotalAmountOfEmails] = useState(0);
 
   const [pageNumber, setPageNumber] = useState(initialPageNumber);
 
@@ -40,12 +37,10 @@ export const EmailContextProvider = props => {
         isFormEmailVisible,
         shouldRefreshEmails,
         emailLimitOnPage,
-        totalAmountOfEmails,
         pageNumber,
         formEmailVisibleHandler,
         refreshEmails,
         setEmailLimitOnPage,
-        setTotalAmountOfEmails,
         setPageNumber,
       }}
     >
